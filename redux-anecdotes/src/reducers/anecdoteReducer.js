@@ -1,6 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit'
 import anecdoteService from '../services/anecdotes'
 
+const sortFunction = (a,b) => {
+  if(a.votes === b.votes) return 0
+  return a.votes > b.votes ? -1 : 1
+}
+
 const anecdoteSlice = createSlice({
   name: 'anecdotes',
   initialState: [],
@@ -9,18 +14,11 @@ const anecdoteSlice = createSlice({
       state.push(action.payload)
     },
     voteAnecdote(state, action) {
-      const anecdoteToVote = state.find(anecdote => anecdote.id === action.payload)
-      const changedAnecdote = {
-        ...anecdoteToVote,
-        votes: anecdoteToVote.votes + 1
-      }
-      const sortFunction = (a,b) => {
-        if(a.votes === b.votes) return 0
-        return a.votes > b.votes ? -1 : 1
-      }
+      const updatedAnecdote = action.payload
+
       // console.log(JSON.parse(JSON.stringify(state)))
       return state
-        .map(anecdote => anecdote.id !== action.payload ? anecdote : changedAnecdote)
+        .map(anecdote => anecdote.id !== action.payload.id ? anecdote : updatedAnecdote)
         .sort(sortFunction)
     },
     appendAnecdotes(state, action) {
@@ -35,7 +33,7 @@ const anecdoteSlice = createSlice({
 export const initializeAnecdotes = () => {
   return async dispatch => {
     const anecdotes = await anecdoteService.getAll()
-    dispatch(setAnecdotes(anecdotes))
+    dispatch(setAnecdotes(anecdotes.sort(sortFunction)))
   }
 }
 
@@ -43,6 +41,13 @@ export const saveAnecdotes = (content) => {
   return async dispatch => {
     const newAnecdote = await anecdoteService.createNew(content)
     dispatch(createNewAnecdote(newAnecdote))
+  }
+}
+
+export const votingAnecdote = (anecdote) => {
+  return async dispatch => {
+    const updatedAnecdote = await anecdoteService.update({ ...anecdote, votes: anecdote.votes + 1 })
+    dispatch(voteAnecdote(updatedAnecdote))
   }
 }
 
