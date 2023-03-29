@@ -12,11 +12,8 @@ const AnecdoteList = () => {
         }
     })
 
-    const filterText = useSelector(state => state.filter)
-    console.log(filterText)
-
     const vote = (id) => {
-    dispatch(voteAnecdote(id))
+        dispatch(voteAnecdote(id))
     }
 
     return ( 

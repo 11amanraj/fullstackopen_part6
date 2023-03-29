@@ -11,7 +11,7 @@ describe('anecdote reducer', () => {
     test('vote is increased', () => {
         const id = 4567
         const action = {
-            type: 'vote',
+            type: 'anecdotes/voteAnecdotes',
             payload: { id: id }
         }
         const state = initialState
@@ -23,7 +23,7 @@ describe('anecdote reducer', () => {
 
     test('new anecdote is added', () => {
         const action = {
-            type: 'add',
+            type: 'anecdotes/createNewAnecdote',
             payload: { content: 'This a test anecdote'}
         }
         const state = initialState
@@ -37,7 +37,7 @@ describe('anecdote reducer', () => {
         const state = initialState
         const content = 'Second Anecdote'
         const action = {
-            type: 'add',
+            type: 'anecdotes/createNewAnecdote',
             payload: { content: content}
         }
 
@@ -45,7 +45,7 @@ describe('anecdote reducer', () => {
         const id = twoAnecdotesState.find(anecdote => anecdote.content === content).id
         
         const action2 = {
-            type: 'vote',
+            type: 'anecdotes/voteAnecdotes',
             payload: { id: id }
         }
         const votedAnecdotes = anecdoteReducer(twoAnecdotesState, action2)
