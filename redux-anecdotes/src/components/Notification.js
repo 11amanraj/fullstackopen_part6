@@ -10,7 +10,7 @@ const Notification = () => {
   }
   return (
     <div style={style}>
-      {notification}
+      {notification.length > 0 ? notification : 'No Notification'}
     </div>
   )
 }
