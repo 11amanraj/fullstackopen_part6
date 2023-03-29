@@ -39,40 +39,13 @@ const anecdoteSlice = createSlice({
         if(a.votes === b.votes) return 0
         return a.votes > b.votes ? -1 : 1
       }
-      console.log(JSON.parse(JSON.stringify(state)))
+      // console.log(JSON.parse(JSON.stringify(state)))
       return state
         .map(anecdote => anecdote.id !== action.payload.id ? anecdote : changedAnecdote)
         .sort(sortFunction)
     }
   }
 })
-
-// const reducer = (state = initialState, action) => {
-//   console.log('state now: ', state)
-//   console.log('action', action)
-
-//   switch (action.type) {
-//     case 'vote':
-//       const anecdoteToVote = state.find(anecdote => anecdote.id === action.payload.id)
-//       const changedAnecdote = {
-//         ...anecdoteToVote,
-//         votes: anecdoteToVote.votes + 1
-//       }
-//       const sortFunction = (a,b) => {
-//         if(a.votes === b.votes) return 0
-//         return a.votes > b.votes ? -1 : 1
-//       }
-//       return state
-//         .map(anecdote => anecdote.id !== action.payload.id ? anecdote : changedAnecdote)
-//         .sort(sortFunction)
-    
-//     case 'add':
-//       const newAnecdote = asObject(action.payload.content)
-//       return state.concat(newAnecdote)
-
-//     default: return state
-//   } 
-// }
 
 export const voteAnecdote = (id) => {
   return {
@@ -90,5 +63,3 @@ export const createAnecdote = (content) => {
 
 export const { createNewAnecdote, voteAnecdotes } = anecdoteSlice.actions
 export default anecdoteSlice.reducer
-
-// export default reducer
