@@ -20,4 +20,16 @@ describe('anecdote reducer', () => {
         const newState = anecdoteReducer(state, action)
         expect(newState.find(anecdote => anecdote.id === id).votes).toEqual(1)
     })
+
+    test('new anecdote is added', () => {
+        const action = {
+            type: 'add',
+            payload: { content: 'This a test anecdote'}
+        }
+        const state = initialState
+
+        deepFreeze(state)
+        const newState = anecdoteReducer(state, action)
+        expect(newState.find(anecdote => anecdote.content === action.payload.content)).toBeDefined()
+    })
 })
