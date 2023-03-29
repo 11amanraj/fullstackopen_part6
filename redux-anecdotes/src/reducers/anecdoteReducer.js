@@ -30,12 +30,18 @@ const reducer = (state = initialState, action) => {
         ...anecdoteToVote,
         votes: anecdoteToVote.votes + 1
       }
-      return state.map(anecdote => anecdote.id !== action.payload.id ? anecdote : changedAnecdote)
+      const sortFunction = (a,b) => {
+        if(a.votes === b.votes) return 0
+        return a.votes > b.votes ? -1 : 1
+      }
+      return state
+        .map(anecdote => anecdote.id !== action.payload.id ? anecdote : changedAnecdote)
+        .sort(sortFunction)
     
     case 'add':
       const newAnecdote = asObject(action.payload.content)
       return state.concat(newAnecdote)
-      
+
     default: return state
   } 
 }
